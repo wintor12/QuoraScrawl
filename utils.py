@@ -4,6 +4,7 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 import time
 import os, re, sys
+import shutil
 
 def readHtml(path):
     p = open(path, 'r')
@@ -290,6 +291,7 @@ def saveAnswers(answer_urls, html_path, plain_text_path, startindex):
 
 
 def saveAttributes(html_path):
+    titles = []
     upvotes = []
     views = []
     comments = []
@@ -308,7 +310,11 @@ def saveAttributes(html_path):
         times.append(getTime(soup))
         follows.append(getUserFollow(soup))
         pics.append(getNumPic(soup))
-        print index
+        titles.append(name)
+        print name
+    
+    with open('story_titles.txt','w') as p:
+        p.write('\n'.join([str(x) for x in titles]))
     with open('story_upvotes.txt','w') as p:
         p.write('\n'.join([str(x) for x in upvotes]))
     with open('story_views.txt','w') as p:
